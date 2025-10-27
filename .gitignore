@@ -44,8 +44,5 @@ Thumbs.db
 # PipeCraft test output
 .test-output/
 
-# PipeCraft generated files
-.pipecraftrc.json
+# PipeCraft cache
 .pipecraft-cache.json
-.github/
-release-it.cjs
