@@ -16,7 +16,7 @@
         #=============================================================================
         #Detects which domains have changed using Nx dependency graph and path-based fallback
 
-        { runs-on: ubuntu-latest, steps: [ { uses: actions/checkout@v4, with: { ref: "${{ inputs.commitSha || github.sha }}", fetch-depth: 0 } }, { uses: ./.github/actions/detect-changes-nx, id: detect, with: { baseRef: "${{ inputs.baseRef || 'origin/main' }}", useNx: 'true' } } ], outputs: { infra: "${{ steps.detect.outputs.infra }}", migrations: "${{ steps.detect.outputs.migrations }}", nxAvailable: "${{ steps.detect.outputs.nxAvailable }}", affectedProjects: "${{ steps.detect.outputs.affectedProjects }}" } },
+        { runs-on: ubuntu-latest, steps: [ { uses: actions/checkout@v4, with: { ref: "${{ inputs.commitSha || github.sha }}", fetch-depth: 0 } }, { uses: ./.github/actions/detect-changes, id: detect, with: { baseRef: "${{ inputs.baseRef || 'origin/main' }}", useNx: 'true' } } ], outputs: { infra: "${{ steps.detect.outputs.infra }}", migrations: "${{ steps.detect.outputs.migrations }}", nxAvailable: "${{ steps.detect.outputs.nxAvailable }}", affectedProjects: "${{ steps.detect.outputs.affectedProjects }}" } },
       #=============================================================================
     #NX CI - All Tasks Sequential (⚠️  Managed by Pipecraft - do not modify)
     #=============================================================================
