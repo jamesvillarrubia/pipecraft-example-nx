@@ -124,8 +124,8 @@ runs:
       run: |
         # Use Nx results if available, otherwise use path filter results
         if [ "${{ steps.nx-check.outputs.available }}" == "true" ] && [ "${{ inputs.useNx }}" == "true" ]; then
-          echo "migrations=${{ steps.nx-filter.outputs, 'migrations') }}" >> $GITHUB_OUTPUT
-          echo "infra=${{ steps.nx-filter.outputs, 'infra') }}" >> $GITHUB_OUTPUT
+          echo "migrations=${{ steps.nx-filter.outputs.migrations }}" >> $GITHUB_OUTPUT
+          echo "infra=${{ steps.nx-filter.outputs.infra }}" >> $GITHUB_OUTPUT
           echo "🔍 Using Nx dependency analysis results"
           echo "📦 Affected projects: ${{ steps.nx-filter.outputs.affectedProjects }}"
         else
