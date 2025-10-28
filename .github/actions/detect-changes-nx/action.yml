@@ -54,6 +54,20 @@ runs:
           echo "⚠️  Nx not detected, falling back to path-based detection"
         fi
 
+    - name: Setup Node.js
+      if: steps.nx-check.outputs.available == 'true' && inputs.useNx == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      if: steps.nx-check.outputs.available == 'true' && inputs.useNx == 'true'
+      shell: bash
+      run: |
+        echo "📦 Installing dependencies for Nx..."
+        npm ci || npm install
+
     - name: Detect Changes with Nx (if available)
       id: nx-filter
       if: steps.nx-check.outputs.available == 'true' && inputs.useNx == 'true'
