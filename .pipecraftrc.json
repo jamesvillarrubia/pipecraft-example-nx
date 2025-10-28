@@ -9,6 +9,7 @@
     "staging",
     "main"
   ],
+  "packageManager": "npm",
   "autoMerge": {
     "staging": true,
     "main": true

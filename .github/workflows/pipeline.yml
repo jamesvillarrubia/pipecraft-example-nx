@@ -40,7 +40,39 @@
 
               { name: Setup Node.js, uses: actions/setup-node@v4, with: { node-version: '24' } },
 
-              { name: Install Dependencies, run: npm ci },
+              {
+                  name: Install Dependencies,
+                  run: "case \"npm\" in
+
+                    \  pnpm)
+
+                    \    corepack enable
+
+                    \    pnpm install --frozen-lockfile || pnpm install
+
+                    \    ;;
+
+                    \  yarn)
+
+                    \    yarn install --frozen-lockfile || yarn install
+
+                    \    ;;
+
+                    \  npm)
+
+                    \    npm ci || npm install
+
+                    \    ;;
+
+                    \  *)
+
+                    \    npm install
+
+                    \    ;;
+
+                    esac\n",
+                  env: { packageManager: npm }
+                },
 
               {
                   name: Cache Nx,

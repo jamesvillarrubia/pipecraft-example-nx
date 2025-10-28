@@ -65,7 +65,16 @@ runs:
       shell: bash
       run: |
         echo "📦 Installing dependencies for Nx..."
-        npm ci || npm install
+        if [ -f "pnpm-lock.yaml" ]; then
+          corepack enable
+          pnpm install --frozen-lockfile || pnpm install
+        elif [ -f "yarn.lock" ]; then
+          yarn install --frozen-lockfile || yarn install
+        elif [ -f "package-lock.json" ]; then
+          npm ci || npm install
+        else
+          npm install
+        fi
 
     - name: Detect Changes with Nx (if available)
       id: nx-filter
