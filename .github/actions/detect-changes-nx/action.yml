@@ -76,8 +76,11 @@ runs:
 
         # Get affected projects using Nx
         if command -v npx >/dev/null 2>&1; then
-          # Get list of affected projects
-          AFFECTED_PROJECTS=$(npx nx show projects --affected --base=${{ steps.set-base.outputs.base_branch }} 2>/dev/null || echo "")
+          # Get list of affected projects (newline-separated)
+          AFFECTED_PROJECTS_RAW=$(npx nx show projects --affected --base=${{ steps.set-base.outputs.base_branch }} 2>/dev/null || echo "")
+
+          # Convert newlines to commas for storage
+          AFFECTED_PROJECTS=$(echo "$AFFECTED_PROJECTS_RAW" | tr '\n' ',' | sed 's/,$//')
           echo "affectedProjects=$AFFECTED_PROJECTS" >> $GITHUB_OUTPUT
 
           if [ -n "$AFFECTED_PROJECTS" ]; then
@@ -87,7 +90,7 @@ runs:
             MIGRATIONS_AFFECTED=false
             INFRA_AFFECTED=false
 
-            # Check each affected project against domain patterns
+            # Check each affected project against domain patterns (comma-separated)
             IFS=',' read -ra PROJECTS <<< "$AFFECTED_PROJECTS"
             for project in "${PROJECTS[@]}"; do
               project=$(echo "$project" | xargs) # trim whitespace
